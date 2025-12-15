@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Tanuki Ramen</string>
+    <string name="logo_desc">Tanuki Ramen Logo</string>
+    <string name="hint_username">username</string>
+    <string name="real_app_name">TANUKI RAMEN</string>
+
+    <!-- Login -->
+    <string name="login">LOGIN</string>
+
+    <!-- Food Menu -->
+    <string name="search">Search</string>
+
+    <!-- Orders -->
+    <string name="all">All</string>
+    <string name="pending">Pending</string>
+    <string name="ready">Ready</string>
+    <string name="served">Served</string>
+
+    <!-- Settings -->
+    <string name="logout">LOGOUT</string>
+
+
+</resources>

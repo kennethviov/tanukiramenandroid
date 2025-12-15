@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.FoodMenuFragment"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_text_field"
+        android:fontFamily="@font/inter_medium"
+        android:hint="@string/search"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:autofillHints="search"
+        android:inputType="text"
+        android:textColorHint="@color/tanuki_red_muted" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_bar"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
