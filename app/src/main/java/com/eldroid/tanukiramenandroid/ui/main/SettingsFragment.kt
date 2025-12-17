@@ -28,6 +28,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val waiterName = (requireActivity() as? MainActivity)?.name ?: "Waiter"
+        binding.waiterName.text = waiterName
+
         binding.logoutButton.setOnClickListener {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

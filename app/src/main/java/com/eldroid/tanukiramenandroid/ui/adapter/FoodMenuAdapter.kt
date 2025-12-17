@@ -2,13 +2,17 @@ package com.eldroid.tanukiramenandroid.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.R
 import androidx.recyclerview.widget.RecyclerView
-import com.eldroid.tanukiramenandroid.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
 import com.eldroid.tanukiramenandroid.databinding.ItemFoodMenuBinding
-import com.eldroid.tanukiramenandroid.model.FoodMenuItem
+import com.eldroid.tanukiramenandroid.backend.model.MenuItem
+
 
 class FoodMenuAdapter(
-    private val menuItems: List<FoodMenuItem>
+    private val menuItems: List<MenuItem>,
+    private val onOrderClick: (MenuItem) -> Unit
 ) : RecyclerView.Adapter<FoodMenuAdapter.FoodMenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodMenuViewHolder {
@@ -27,24 +31,24 @@ class FoodMenuAdapter(
     override fun getItemCount() = menuItems.size
 
     inner class FoodMenuViewHolder(private val binding: ItemFoodMenuBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FoodMenuItem) {
+        fun bind(item: MenuItem) {
+
             binding.foodName.text = item.name
-            binding.foodPrice.text = String.format("P%.2f", item.price)
-            binding.quantityText.text = item.quantity.toString()
+            binding.foodPrice.text = String.format("%.2f", item.price)
+            binding.stockText.text = item.stockQuantity.toString()
 
-            // You can use a library like Glide or Picasso to load the image
-            // For now, it will use the placeholder
-            // Glide.with(binding.root.context).load(item.imageUrl).into(binding.foodImage)
+            val imageUrl = "http://10.0.2.2:8080/uploads/${item.imagePath}"
+            val glideUrl = GlideUrl(imageUrl)
 
-            binding.plusButton.setOnClickListener {
-                item.quantity++
-                binding.quantityText.text = item.quantity.toString()
-            }
+            Glide.with(binding.root.context)
+                .load(glideUrl)
+                .placeholder(com.eldroid.tanukiramenandroid.R.drawable.img_loading)
+                .error(com.eldroid.tanukiramenandroid.R.drawable.img_broken)
+                .into(binding.foodImage)
 
-            binding.minusButton.setOnClickListener {
-                if (item.quantity > 0) {
-                    item.quantity--
-                    binding.quantityText.text = item.quantity.toString()
+            binding.orderButton.setOnClickListener {
+                if (item.stockQuantity > 0) {
+                    onOrderClick(item)
                 }
             }
         }

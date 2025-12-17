@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="#1A1A1A"
     app:cardCornerRadius="12dp"
-    android:layout_margin="8dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,9 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_placeholder"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/food_name"
@@ -30,10 +32,20 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:fontFamily="@font/inter_medium"
             app:layout_constraintStart_toEndOf="@id/food_image"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/food_price"
+            app:layout_constraintTop_toTopOf="@id/food_price"/>
 
         <TextView
             android:id="@+id/food_price"
@@ -41,71 +53,51 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            android:text="P123.45"
+            android:text="123.45"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:fontFamily="@font/inter_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/quantity_label"
+            android:id="@+id/stock_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="qty:"
-            android:textColor="#AFAFAF"
-            app:layout_constraintEnd_toStartOf="@id/quantity_text"
-            app:layout_constraintTop_toTopOf="@id/view_stepper"
-            app:layout_constraintBottom_toBottomOf="@id/view_stepper"/>
+            android:layout_marginStart="16dp"
+            android:text="Stock:"
+            android:textSize="12sp"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/inter_medium"
+            app:layout_constraintStart_toEndOf="@id/food_image"
+            app:layout_constraintTop_toTopOf="@id/order_button"
+            app:layout_constraintBottom_toBottomOf="@id/order_button"/>
 
         <TextView
-            android:id="@+id/quantity_text"
+            android:id="@+id/stock_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
             android:text="1"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/view_stepper"
-            app:layout_constraintTop_toTopOf="@id/view_stepper"
-            app:layout_constraintBottom_toBottomOf="@id/view_stepper"/>
+            android:textSize="12sp"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/inter_medium"
+            app:layout_constraintStart_toEndOf="@id/stock_label"
+            app:layout_constraintTop_toTopOf="@id/stock_label"/>
 
-        <LinearLayout
-            android:id="@+id/view_stepper"
+        <Button
+            android:id="@+id/order_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_quantity_controls"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:text="ORDER"
+            android:textSize="12sp"
+            android:fontFamily="@font/japan_ramen"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_button_ripple"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/food_price">
-
-            <TextView
-                android:id="@+id/minus_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:text="-"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textSize="24sp"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:background="#4D4D4D"/>
-
-            <TextView
-                android:id="@+id/plus_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:text="+"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textSize="24sp"/>
-        </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
