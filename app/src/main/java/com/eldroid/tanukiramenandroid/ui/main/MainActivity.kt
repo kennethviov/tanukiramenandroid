@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.eldroid.tanukiramenandroid.R
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     var userId by Delegates.notNull<Long>()
     lateinit var name: String
+    lateinit var role: String
+    lateinit var userData: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         userId = prefs.getLong("USER_ID", 0)
         name = prefs.getString("NAME", "").toString()
-
+        role = prefs.getString("ROLE", "").toString()
+        userData = prefs.getString("USER_DATA", "").toString()
 
 
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)

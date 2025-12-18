@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.eldroid.tanukiramenandroid.databinding.ItemFoodMenuBinding
 import com.eldroid.tanukiramenandroid.backend.model.MenuItem
+import com.eldroid.tanukiramenandroid.backend.network.NetworkConfig
 
 
 class FoodMenuAdapter(
@@ -37,7 +38,7 @@ class FoodMenuAdapter(
             binding.foodPrice.text = String.format("%.2f", item.price)
             binding.stockText.text = item.stockQuantity.toString()
 
-            val imageUrl = "http://10.0.2.2:8080/uploads/${item.imagePath}"
+            val imageUrl = "${NetworkConfig.BASE_URL}/uploads/${item.imagePath}"
             val glideUrl = GlideUrl(imageUrl)
 
             Glide.with(binding.root.context)

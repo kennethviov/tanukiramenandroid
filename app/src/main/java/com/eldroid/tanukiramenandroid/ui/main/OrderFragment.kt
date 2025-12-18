@@ -15,11 +15,12 @@ import com.eldroid.tanukiramenandroid.databinding.FragmentOrderBinding
 import com.eldroid.tanukiramenandroid.backend.model.Order
 import com.eldroid.tanukiramenandroid.backend.repo.Repository
 import com.eldroid.tanukiramenandroid.ui.adapter.OrderAdapter
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 
 class OrderFragment : Fragment() {
 
-    val orders: MutableList<Order> = mutableListOf()
+    private val allOrders = mutableListOf<Order>()
     private var _binding: FragmentOrderBinding? = null
     private val binding get() = _binding!!
     private lateinit var orderAdapter: OrderAdapter
@@ -45,7 +46,28 @@ class OrderFragment : Fragment() {
 
         loadOrdersFromBE()
 
-        orderAdapter.submitList(orders)
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val filtered = when (tab.position) {
+                    0 -> allOrders // All
+                    1 -> {
+                        allOrders.filter { it.status == "Pending" }
+                        allOrders.filter { it.status == "Preparing" }
+                    }
+                    2 -> allOrders.filter { it.status == "Ready" }
+                    3 -> allOrders.filter { it.status == "Served" }
+                    else -> allOrders
+                }
+
+                orderAdapter.submitList(filtered)
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+
+            override fun onTabReselected(p0: TabLayout.Tab?) {}
+
+        })
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             loadOrdersFromBE()
@@ -64,10 +86,12 @@ class OrderFragment : Fragment() {
             val response = Repository().fetchOrders()
 
             if (response.isSuccessful) {
-                orders.clear()
-                orders.addAll(response.body()!!)
+                allOrders.clear()
+                allOrders.addAll(response.body()!!)
+
                 orderAdapter.notifyDataSetChanged()
-                Log.d("OrderFragment", "Orders fetched successfully: $orders")
+                orderAdapter.submitList(allOrders.toList())
+                Log.d("OrderFragment", "Orders fetched successfully: $allOrders")
             } else {
                 Log.e("OrderFragment", "Error fetching orders: ${response.code()}")
             }

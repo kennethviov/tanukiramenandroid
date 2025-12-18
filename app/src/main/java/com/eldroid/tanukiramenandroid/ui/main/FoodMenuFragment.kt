@@ -3,6 +3,7 @@ package com.eldroid.tanukiramenandroid.ui.main
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 
 class FoodMenuFragment : Fragment() {
 
-    private var menuItems: MutableList<MenuItem> = mutableListOf()
+    private var allMenuItems = mutableListOf<MenuItem>()
+    private var filteredMenuItems = mutableListOf<MenuItem>()
     private lateinit var adapter: FoodMenuAdapter
     private val cartViewModel: CartViewModel by activityViewModels()
     private var _binding: FragmentFoodMenuBinding? = null
@@ -38,13 +40,24 @@ class FoodMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = FoodMenuAdapter(menuItems) { foodItem ->
+        adapter = FoodMenuAdapter(filteredMenuItems) { foodItem ->
             cartViewModel.add(foodItem)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
         loadMenuItemsFromBE()
+
+        binding.searchBar.addTextChangedListener(object: android.text.TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterMenu(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             loadMenuItemsFromBE()
@@ -56,6 +69,22 @@ class FoodMenuFragment : Fragment() {
         _binding = null
     }
 
+    private fun filterMenu(query: String) {
+        val lowerQuery = query.lowercase()
+
+        filteredMenuItems.clear()
+
+        if (lowerQuery.isEmpty()) {
+            filteredMenuItems.addAll(allMenuItems)
+        } else {
+            filteredMenuItems.addAll(allMenuItems.filter {
+                it.name.lowercase().contains(lowerQuery)
+            })
+        }
+
+        adapter.notifyDataSetChanged()
+    }
+
     private fun loadMenuItemsFromBE() {
         binding.swipeRefreshLayout.isRefreshing = true
 
@@ -63,10 +92,14 @@ class FoodMenuFragment : Fragment() {
             val response = Repository().fetchMenu()
 
             if (response.isSuccessful) {
-                menuItems.clear()
-                menuItems.addAll(response.body()!!)
+                allMenuItems.clear()
+                allMenuItems.addAll(response.body()!!)
+
+                filteredMenuItems.clear()
+                filteredMenuItems.addAll(allMenuItems)
+
                 adapter.notifyDataSetChanged()
-                Log.d("FoodMenuFragment", "Menu items fetched successfully: $menuItems")
+                Log.d("FoodMenuFragment", "Menu items fetched successfully: $allMenuItems")
             } else {
                 Log.e("FoodMenuFragment", "Error fetching menu items: ${response.code()}")
             }

@@ -18,21 +18,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textSize="18sp"
+            android:textSize="28sp"
             android:textColor="@color/white"
             android:fontFamily="@font/inter_bold"/>
 
         <TextView
+            android:id="@+id/role_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="12sp"
+            android:text="Role"
+            android:textSize="18sp"
             android:textColor="@color/gray"
             android:fontFamily="@font/inter_medium"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="32dp"/>
+
+        <Button
+            android:id="@+id/webview_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_ripple"
+            android:fontFamily="@font/japan_ramen"
+            android:padding="12dp"
+            android:text="@string/webview"
+            android:textColor="@color/black" />
+
 
         <Button
             android:id="@+id/logout_button"

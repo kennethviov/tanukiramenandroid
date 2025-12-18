@@ -17,6 +17,7 @@
     <string name="served">Served</string>
 
     <!-- Settings -->
+    <string name="webview">VIEW ON WEB</string>
     <string name="logout">LOGOUT</string>
 
 

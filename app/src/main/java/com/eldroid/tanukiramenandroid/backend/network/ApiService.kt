@@ -40,7 +40,7 @@ interface ApiService {
     @GET("api/orders/status")
     suspend fun getOrderByStatus(@Query("status") status: String): Response<List<Order>>
 
-    @PUT("api/{orderId}/served")
+    @PUT("api/orders/{orderId}/served")
     suspend fun markOrderAsServed(
         @Path("orderId") orderId: Long,
         @Body request: MarkServedRequest

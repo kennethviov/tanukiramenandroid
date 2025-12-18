@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eldroid.tanukiramenandroid.R
 import com.eldroid.tanukiramenandroid.backend.model.MarkServedRequest
 import com.eldroid.tanukiramenandroid.backend.model.OrderItem
 import com.eldroid.tanukiramenandroid.backend.repo.Repository
@@ -54,6 +57,13 @@ class OrderDetailsActivity : AppCompatActivity() {
                         binding.orderId.text = order.orderId.toString()
                         binding.orderTotal.text = String.format("%.2f", order.total)
                         binding.orderStatus.text = order.status
+
+                        if ("Ready" != order.status) {
+                            binding.servedButton.isEnabled = false
+                            binding.servedButton.alpha = 0.5f
+                        } else {
+                            binding.servedButton.isEnabled = true
+                        }
 
                         orderItems.clear()
                         orderItems.addAll(order.items)
